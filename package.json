@@ -4,10 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "install-client": "npm install --prefix client",
+    "install-server": "npm install --prefix server",
+    "install": "npm run install-client && npm run install-server",
     "client": "npm run dev --prefix client",
     "server": "npm run dev --prefix server",
     "dev": "npm run client & npm run server",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npm run test --prefix client && npm run test --prefix server",
+    "deploy": "npm run build --prefix client && npm start --prefix server"
   },
   "author": "",
   "license": "ISC"
