@@ -4,7 +4,7 @@ const launch = {
   flightNumber: 100,
   mission: 'Kepler Exploration X',
   rocket: 'Explorer IS1',
-  launchData: new Data('December 27, 2030'),
+  launchData: new Date('December 27, 2030'),
   destination: 'Kepler-442 b',
   customer: ['ZTM', 'NASA'],
   upcoming: true,
