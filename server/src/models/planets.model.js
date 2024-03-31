@@ -4,16 +4,13 @@ const { parse } = require('csv-parse');
 
 const habitablePlanets = [];
 
-function isHabitablePlanet(planet) {
-  return (
-    planet['koi_disposition'] === 'CONFIRMED' &&
-    planet['koi_insol'] > 0.36 &&
-    planet['koi_insol'] < 1.11 &&
-    planet['koi_prad'] < 1.6
-  );
-}
+const isHabitablePlanet = (planet) =>
+  planet['koi_disposition'] === 'CONFIRMED' &&
+  planet['koi_insol'] > 0.36 &&
+  planet['koi_insol'] < 1.11 &&
+  planet['koi_prad'] < 1.6;
 
-function loadPlanetsData() {
+const loadPlanetsData = () => {
   console.log(`current path, ${__dirname}`);
   return new Promise((resolve, reject) => {
     fs.createReadStream(
@@ -39,6 +36,8 @@ function loadPlanetsData() {
         resolve();
       });
   });
-}
+};
 
-module.exports = { planets: habitablePlanets, loadPlanetsData };
+const getAllPlanets = () => habitablePlanets;
+
+module.exports = { getAllPlanets, loadPlanetsData };
