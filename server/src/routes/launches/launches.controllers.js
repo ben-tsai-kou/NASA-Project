@@ -5,7 +5,25 @@ const httpGetAllLaunches = (_, res) => {
 };
 
 const httpAddnewLaunch = (req, res) => {
-  const launch = { ...req.body, launchDate: new Date(req.body.launchDate) };
+  const nextMission = { ...req.body };
+
+  if (
+    !nextMission.mission ||
+    !nextMission.rocket ||
+    !nextMission.launchDate ||
+    !nextMission.destination
+  ) {
+    return res.status(400).json({ error: 'Missing required launch property' });
+  }
+
+  const launchDate = new Date(nextMission.launchDate);
+
+  if (isNaN(launchDate)) {
+    return res.status(400).json({ error: 'Invalid launch date' });
+  }
+
+  const launch = { ...nextMission, launchDate };
+
   const currentLaunch = addNewLaunch(launch);
   return res.status(201).json(currentLaunch); // status code 201 means created
 };
