@@ -11,7 +11,7 @@ const httpAddnewLaunch = (req, res) => {
     !nextMission.mission ||
     !nextMission.rocket ||
     !nextMission.launchDate ||
-    !nextMission.destination
+    !nextMission.target
   ) {
     return res.status(400).json({ error: 'Missing required launch property' });
   }
