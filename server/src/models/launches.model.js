@@ -17,6 +17,8 @@ launches.set(launch.flightNumber, launch);
 
 const getAllLaunches = () => Array.from(launches.values());
 
+const isFlightNumberExist = (flightNumber) => launches.has(flightNumber);
+
 const addNewLaunch = (launch) => {
   latestFlightNumber++;
   const currentLaunch = {
@@ -30,7 +32,16 @@ const addNewLaunch = (launch) => {
   return currentLaunch;
 };
 
+const deleteLaunch = (flightNumber) => {
+  const aborted = launches.get(flightNumber);
+  aborted.upcoming = false;
+  aborted.success = false;
+  return aborted;
+};
+
 module.exports = {
   getAllLaunches,
   addNewLaunch,
+  deleteLaunch,
+  isFlightNumberExist,
 };

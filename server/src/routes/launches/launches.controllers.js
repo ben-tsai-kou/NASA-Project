@@ -1,4 +1,9 @@
-const { getAllLaunches, addNewLaunch } = require('../../models/launches.model');
+const {
+  getAllLaunches,
+  addNewLaunch,
+  deleteLaunch,
+  isFlightNumberExist,
+} = require('../../models/launches.model');
 
 const httpGetAllLaunches = (_, res) => {
   return res.status(200).json(getAllLaunches());
@@ -28,7 +33,20 @@ const httpAddnewLaunch = (req, res) => {
   return res.status(201).json(currentLaunch); // status code 201 means created
 };
 
+const httpDeleteLaunch = (req, res) => {
+  const launchIdToBeDeleted = Number(req.params.flightNumber);
+
+  if (!isFlightNumberExist(launchIdToBeDeleted)) {
+    return res.status(404).json({ error: 'flight number not found' });
+  }
+
+  const abortedLauncht = deleteLaunch(launchIdToBeDeleted);
+
+  return res.status(200).json(abortedLauncht);
+};
+
 module.exports = {
   httpGetAllLaunches,
   httpAddnewLaunch,
+  httpDeleteLaunch,
 };
