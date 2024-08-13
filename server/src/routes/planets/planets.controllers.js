@@ -1,6 +1,7 @@
 const { getAllPlanets } = require('../../models/planets.model');
 
-const httpGetAllPlanets = (_, res) => res.status(200).json(getAllPlanets());
+const httpGetAllPlanets = async (_, res) =>
+  await res.status(200).json(getAllPlanets());
 
 module.exports = {
   httpGetAllPlanets,
