@@ -38,8 +38,6 @@ const saveLaunch = async (launch) => {
   );
 };
 
-saveLaunch(launch);
-
 const getLatestFlightNumber = async () => {
   const latestLaunch = await launchesDatabase
     .findOne()
@@ -48,23 +46,23 @@ const getLatestFlightNumber = async () => {
   return latestLaunch.flightNumber;
 };
 
+const scheduleNewLaunch = async (launch) => {
+  const newFlightNumber = (await getLatestFlightNumber()) + 1;
+
+  const newLaunch = Object.assign(launch, {
+    success: true,
+    upcoming: true,
+    customers: ['Zero to Mastery', 'NASA'],
+    flightNumber: newFlightNumber,
+  });
+
+  await saveLaunch(newLaunch);
+};
+
 const getAllLaunches = async () =>
   await launchesDatabase.find({}, { _id: 0, __v: 0 });
 
 const isFlightNumberExist = (flightNumber) => launches.has(flightNumber);
-
-const addNewLaunch = (launch) => {
-  latestFlightNumber++;
-  const currentLaunch = {
-    ...launch,
-    flightNumber: latestFlightNumber,
-    customer: ['Zero to Master', 'NASA'],
-    upcoming: true,
-    success: true,
-  };
-  launches.set(latestFlightNumber++, currentLaunch);
-  return currentLaunch;
-};
 
 const deleteLaunch = (flightNumber) => {
   const aborted = launches.get(flightNumber);
@@ -73,9 +71,11 @@ const deleteLaunch = (flightNumber) => {
   return aborted;
 };
 
+saveLaunch(launch);
+
 module.exports = {
   getAllLaunches,
-  addNewLaunch,
   deleteLaunch,
+  scheduleNewLaunch,
   isFlightNumberExist,
 };
