@@ -33,16 +33,23 @@ const httpAddNewLaunch = async (req, res) => {
   return res.status(201).json(currentLaunch); // status code 201 means created
 };
 
-const httpDeleteLaunch = (req, res) => {
+const httpDeleteLaunch = async (req, res) => {
   const launchIdToBeDeleted = Number(req.params.flightNumber);
+  const flightToBeDeleted = await isFlightNumberExist(launchIdToBeDeleted);
 
-  if (!isFlightNumberExist(launchIdToBeDeleted)) {
+  if (!flightToBeDeleted) {
     return res.status(404).json({ error: 'flight number not found' });
   }
 
-  const abortedLaunch = deleteLaunch(launchIdToBeDeleted);
+  const abortedLaunch = await deleteLaunch(launchIdToBeDeleted);
 
-  return res.status(200).json(abortedLaunch);
+  if (!abortedLaunch) {
+    return res.status(400).json({ error: 'Failed to abort launch' });
+  }
+
+  return res.status(200).json({
+    ok: true,
+  });
 };
 
 module.exports = {
