@@ -9,8 +9,8 @@ const {
 
 const launchesRouter = express.Router();
 
-launchesRouter.get('/launches', httpGetAllLaunches);
-launchesRouter.post('/launches', httpAddNewLaunch);
-launchesRouter.delete('/launches/:flightNumber', httpDeleteLaunch);
+launchesRouter.get('/', httpGetAllLaunches);
+launchesRouter.post('/', httpAddNewLaunch);
+launchesRouter.delete('/:flightNumber', httpDeleteLaunch);
 
 module.exports = launchesRouter;
