@@ -5,17 +5,6 @@ const planets = require('./planets.mongo');
 
 const DEFAULT_FLIGHT_NUMBER = 100;
 
-// const launch = {
-//   flightNumber: 100, // flight_number
-//   mission: 'Kepler Exploration X', // name
-//   rocket: 'Explorer IS1', // rocket.name
-//   launchDate: new Date('December 27, 2030'), // date_local
-//   target: 'Kepler-442 b', // not applicable
-//   customers: ['ZTM', 'NASA'], // payloads.customers for each payload
-//   upcoming: true, // upcoming
-//   success: true, // success
-// };
-
 const saveLaunch = async (launch) => {
   await launchesDatabase.findOneAndUpdate(
     {
@@ -37,7 +26,11 @@ const getLatestFlightNumber = async () => {
 };
 
 const getAllLaunches = async ({ skip, limit }) =>
-  await launchesDatabase.find({}, { _id: 0, __v: 0 }).skip(skip).limit(limit);
+  await launchesDatabase
+    .find({}, { _id: 0, __v: 0 })
+    .sort({ flightNumber: 1 })
+    .skip(skip)
+    .limit(limit);
 
 const deleteLaunch = async (flightNumber) => {
   const aborted = await launchesDatabase.updateOne(
@@ -84,8 +77,6 @@ const findLaunch = async ({ flightNumber }) => {
 const isFlightNumberExist = async (flightNumber) =>
   await findLaunch({ flightNumber });
 
-// saveLaunch(launch);
-
 const SPACEX_API_URL = 'https://api.spacexdata.com/v4/launches/query';
 
 const populateLaunches = async () => {
@@ -131,7 +122,6 @@ const populateLaunches = async () => {
 
     console.log(`${launch.flightNumber} ${launch.mission}`);
 
-    // TODO: populate launches collection
     await saveLaunch(launch);
   }
 };
