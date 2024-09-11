@@ -36,8 +36,8 @@ const getLatestFlightNumber = async () => {
   return latestLaunch.flightNumber;
 };
 
-const getAllLaunches = async () =>
-  await launchesDatabase.find({}, { _id: 0, __v: 0 }).skip(20).limit(50);
+const getAllLaunches = async ({ skip, limit }) =>
+  await launchesDatabase.find({}, { _id: 0, __v: 0 }).skip(skip).limit(limit);
 
 const deleteLaunch = async (flightNumber) => {
   const aborted = await launchesDatabase.updateOne(
