@@ -5,7 +5,8 @@ const {
   isFlightNumberExist,
 } = require('../../models/launches.model');
 
-const httpGetAllLaunches = async (_, res) => {
+const httpGetAllLaunches = async (req, res) => {
+  console.log(req.query);
   return res.status(200).json(await getAllLaunches());
 };
 
